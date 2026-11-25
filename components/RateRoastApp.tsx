@@ -236,6 +236,7 @@ export function RateRoastApp() {
       document.removeEventListener('pointerup', onPointerRelease);
       document.removeEventListener('pointercancel', onPointerRelease);
       if (tickerFn) gsap.ticker.remove(tickerFn);
+      gsap.killTweensOf('.stg,.btn-dark,.chip,#grid article');
       if (lenis) {
         lenis.start();
         lenis.destroy();
@@ -669,6 +670,7 @@ export function RateRoastApp() {
               onFilterChange={setDirFilter}
               mineIds={mineIds}
               isLoading={dirLoading}
+              isActive={activeTab === 'directory'}
               onOpenCollab={handleOpenCollab}
               onDeleteCard={handleDeleteCard}
               onGoToAudit={() => switchTab('audit')}

@@ -36,7 +36,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={rubik.variable}>
-      <body suppressHydrationWarning>{children}</body>
+      <body className={rubik.className} suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

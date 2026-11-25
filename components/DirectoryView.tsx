@@ -16,6 +16,7 @@ interface DirectoryViewProps {
   onFilterChange: (val: 'all' | RoleKey) => void;
   mineIds: string[];
   isLoading: boolean;
+  isActive: boolean;
   onOpenCollab: (profile: DirectoryProfile, triggerEl: HTMLButtonElement | null) => void;
   onDeleteCard: (profileId: string) => void;
   onGoToAudit: () => void;
@@ -28,6 +29,7 @@ export function DirectoryView({
   onFilterChange,
   mineIds,
   isLoading,
+  isActive,
   onOpenCollab,
   onDeleteCard,
   onGoToAudit,
@@ -37,10 +39,10 @@ export function DirectoryView({
   const filtered = profiles.filter((p) => filter === 'all' || p.role === filter);
 
   useEffect(() => {
-    if (!gridRef.current) return;
+    if (!isActive || !gridRef.current) return;
     const cards = Array.from(gridRef.current.querySelectorAll('.stg'));
     cascadeElements(cards);
-  }, [filter, filtered.length, cascadeElements]);
+  }, [isActive, filter, filtered.length, cascadeElements]);
 
   const filterOptions: Array<{ k: 'all' | RoleKey; l: string }> = [
     { k: 'all', l: 'All' },
