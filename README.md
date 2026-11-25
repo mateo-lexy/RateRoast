@@ -57,8 +57,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 ---
 
 ## 👥 Team (Duo)
-- **[Your Name / Handle]** — Full-Stack Architecture, AI Prompt Engineering & Frontend Motion
-- **[Teammate Name / Handle]** — Product Strategy, QA Testing & Presentation
+- **Ahmad Akmal** — Full-Stack Architecture, AI Prompt Engineering & Frontend Motion
+- **Fathan Al Faridzi** — QA Testing & Presentation 
 
 ---
 
