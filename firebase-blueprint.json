@@ -1,0 +1,167 @@
+{
+  "entities": {
+    "DirectoryProfile": {
+      "title": "DirectoryProfile",
+      "description": "A verified or audited co-builder profile published to the RateRoast Co-Builder Directory.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique profile document identifier.",
+          "minLength": 2,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name or handle of the freelancer.",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "role": {
+          "type": "string",
+          "description": "Primary role category key.",
+          "enum": ["ai", "design", "copy", "dev"]
+        },
+        "rate": {
+          "type": "number",
+          "description": "Published hourly or project rate."
+        },
+        "cur": {
+          "type": "string",
+          "description": "Currency and unit identifier.",
+          "enum": ["usd", "idr"]
+        },
+        "score": {
+          "type": "number",
+          "description": "Displayed directory audit score (0-100)."
+        },
+        "originalScore": {
+          "type": "number",
+          "description": "Initial audit score before rewrite (0-100)."
+        },
+        "isDemoPublish": {
+          "type": "boolean",
+          "description": "True if published via rewrite/demo mode when initial score was under 75."
+        },
+        "line": {
+          "type": "string",
+          "description": "Concise one-liner pitch summary for the directory card.",
+          "minLength": 1,
+          "maxLength": 360
+        },
+        "rewrittenPitch": {
+          "type": "string",
+          "description": "Full high-converting rewritten offer.",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "looking": {
+          "type": "string",
+          "description": "What kind of co-builder partner the freelancer is seeking.",
+          "enum": ["Technical Co-Builder", "UI/UX Partner", "Growth & Sales"]
+        },
+        "skills": {
+          "type": "array",
+          "description": "Up to 3 short extracted skill tags."
+        },
+        "contacts": {
+          "type": "array",
+          "description": "Public contact method entries (label and value)."
+        },
+        "isSeed": {
+          "type": "boolean",
+          "description": "Whether this profile is one of the initial seeded directory profiles."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "role",
+        "rate",
+        "cur",
+        "score",
+        "originalScore",
+        "isDemoPublish",
+        "line",
+        "rewrittenPitch",
+        "looking",
+        "skills",
+        "contacts",
+        "isSeed",
+        "createdAt"
+      ]
+    },
+    "CollabRequest": {
+      "title": "CollabRequest",
+      "description": "A quick collaboration ping sent from a visitor to a directory co-builder.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique collaboration request identifier.",
+          "minLength": 2,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "targetProfileId": {
+          "type": "string",
+          "description": "ID of the directory profile receiving the ping.",
+          "minLength": 2,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "targetName": {
+          "type": "string",
+          "description": "Handle or name of the recipient.",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "senderHandle": {
+          "type": "string",
+          "description": "Handle or contact of the visitor sending the ping.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "message": {
+          "type": "string",
+          "description": "Collaboration intro message.",
+          "minLength": 10,
+          "maxLength": 1200
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        }
+      },
+      "required": [
+        "id",
+        "targetProfileId",
+        "targetName",
+        "senderHandle",
+        "message",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/directory_profiles/{profileId}": {
+      "schema": {
+        "$ref": "#/entities/DirectoryProfile"
+      },
+      "description": "Public RateRoast Co-Builder Directory cards (seeded + user-published)."
+    },
+    "/collab_requests/{requestId}": {
+      "schema": {
+        "$ref": "#/entities/CollabRequest"
+      },
+      "description": "Write-only collaboration pings targeting existing directory profiles."
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "RateRoast",
+  "description": "Brutal pitch audits and Co-Builder Directory for freelancers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

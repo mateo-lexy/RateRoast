@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RateRoast. Brutal pitch audits for freelancers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<style>
+:root{--ease-ios-spring:cubic-bezier(0.32,0.72,0,1);--ease-ios-bounce:cubic-bezier(0.34,1.36,0.64,1);--canvas:#F4F5F7;--glass:rgba(255,255,255,.65);--pill:rgba(255,255,255,.85);--field:rgba(255,255,255,.5);--edge:rgba(255,255,255,.8);--ring:rgba(15,23,42,.05);--shadow:rgba(15,23,42,.08);--ink:#1D1D1F;--mute:#5B6068;--line:rgba(15,23,42,.1);--coral:#FF453A;--coral-ink:#D1291F;--coral-bg:rgba(255,69,58,.1);--green:#30D158;--green-ink:#17803A;--green-bg:rgba(48,209,88,.14);--amber-ink:#9A5B00;--amber-bg:rgba(255,159,10,.15);--btn:#1D1D1F;--btn-ink:#fff;--o1:#EAE6DF;--o2:#E2E8F0;--o3:#F5EFE6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--canvas:#0F1013;--glass:rgba(44,46,52,.55);--pill:rgba(70,72,80,.7);--field:rgba(255,255,255,.06);--edge:rgba(255,255,255,.14);--ring:rgba(255,255,255,.06);--shadow:rgba(0,0,0,.4);--ink:#F5F5F7;--mute:#A4A9B3;--line:rgba(255,255,255,.12);--coral-ink:#FF6B61;--coral-bg:rgba(255,69,58,.16);--green-ink:#4ADE80;--green-bg:rgba(48,209,88,.16);--amber-ink:#FFB340;--btn:#F5F5F7;--btn-ink:#1D1D1F;--o1:rgba(255,200,150,.08);--o2:rgba(120,150,200,.1);--o3:rgba(255,220,180,.06);color-scheme:dark}}
+html{scrollbar-gutter:stable;background:var(--canvas);scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;color:var(--ink);font-family:'Rubik',-apple-system,BlinkMacSystemFont,sans-serif;font-weight:500;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-variant-numeric:tabular-nums;line-height:1.5;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--glass);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);z-index:40}
+.amb{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(60% 45% at 12% 6%,var(--o1),transparent 70%),radial-gradient(50% 40% at 92% 18%,var(--o2),transparent 70%),radial-gradient(60% 45% at 50% 100%,var(--o3),transparent 70%)}
+.hd{font-family:'Rubik',-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.02em;font-weight:800}
+.mute{color:var(--mute)}
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%);border:1px solid var(--edge);box-shadow:0 0 0 1px var(--ring),0 12px 32px -8px var(--shadow);border-radius:24px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30}
+.navin{background:var(--glass);-webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid var(--edge);box-shadow:0 1px 0 var(--ring);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px}
+@media(min-width:768px){.navin{margin-top:12px;border:1px solid var(--edge);border-radius:999px;padding:8px 10px 8px 22px;box-shadow:0 0 0 1px var(--ring),0 12px 32px -8px var(--shadow)}}
+.beta{font:600 10px/1 'Rubik',-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.06em;padding:4px 7px;border-radius:999px;background:var(--pill);border:1px solid var(--line);color:var(--mute);vertical-align:middle;margin-left:6px}
+.seg{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--field);border:1px solid var(--line);width:100%}
+@media(min-width:640px){.seg{width:auto}}
+.seg button,.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--mute);font:600 14px/1 'Rubik',-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.01em;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,color .15s,box-shadow .15s}
+.seg button{flex:1;min-height:42px}
+.seg button[aria-selected=true],.seg button[aria-pressed=true],.chip[aria-pressed=true]{background:var(--pill);color:var(--ink);box-shadow:0 0 0 1px var(--ring),0 4px 12px -4px var(--shadow)}
+.chip{background:var(--field);border-color:var(--line)}
+.chip[aria-pressed=true]{border-color:var(--edge)}
+.cnt{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+.field{width:100%;min-height:48px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--field);color:var(--ink);font:500 16px/1.45 'Rubik',-apple-system,BlinkMacSystemFont,sans-serif;box-shadow:inset 0 1px 2px rgba(15,23,42,.05);box-sizing:border-box;-webkit-appearance:none;appearance:none}
+textarea.field{min-height:140px;resize:vertical}
+.field::placeholder{color:var(--mute);opacity:.7}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.field:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(120,130,150,.25)}
+.lbl{display:block;font-size:13px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px;color:var(--mute)}
+.btn{min-height:48px;padding:0 22px;border-radius:14px;font:700 15px/1 'Rubik',-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.02em;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;transition:transform .12s,opacity .15s}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn-dark{background:var(--btn);color:var(--btn-ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 20px -8px rgba(29,29,31,.5)}
+.btn-glass{background:var(--pill);color:var(--ink);border-color:var(--edge);box-shadow:0 0 0 1px var(--ring);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.sq{padding:0;width:48px;flex:none}
+.ic{width:18px;height:18px;flex:none}
+.tag{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border-radius:999px;font-size:13px;font-weight:600;background:var(--pill);border:1px solid var(--line);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.badge,.status{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap}
+.ok{background:var(--green-bg);color:var(--green-ink)}.no{background:var(--coral-bg);color:var(--coral-ink)}.mid{background:var(--amber-bg);color:var(--amber-ink)}
+.roast{border-radius:20px;padding:20px;background:var(--glass);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid rgba(255,69,58,.28);box-shadow:0 0 0 1px var(--ring),0 10px 28px -12px rgba(255,69,58,.4)}
+.score{font-size:clamp(76px,18vw,112px);line-height:.9}
+.pass{background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(226,232,240,.6) 48%,rgba(245,239,230,.85));-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.9);box-shadow:0 0 0 1px var(--ring),0 18px 40px -14px var(--shadow);border-radius:28px;color:#1D1D1F}
+.pass .mute{color:#5B6068}
+.pass .chip{color:#5B6068;background:rgba(255,255,255,.55);border-color:rgba(15,23,42,.1)}
+.pass .chip[aria-pressed=true]{background:#fff;color:#1D1D1F}
+.step{display:flex;align-items:center;gap:12px;color:var(--mute);font-weight:600;transition:color .2s}
+.step i{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.step.on{color:var(--ink)}.step.on i{border-color:var(--ink);border-top-color:transparent;animation:spin .7s linear infinite}
+.step.done{color:var(--ink)}.step.done i{background:var(--green);border-color:var(--green);color:#fff;animation:none}.step.done .ic{width:13px;height:13px}
+@keyframes spin{to{transform:rotate(360deg)}}
+#modal{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center;padding:16px;background:rgba(15,23,42,.28);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+@media(min-width:640px){#modal{align-items:center}}
+#modal[hidden],[hidden]{display:none!important}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:70;padding:12px 18px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font-weight:600;font-size:14px;transition:.25s;max-width:calc(100vw - 32px);text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+/* ---- iOS / visionOS motion ---- */
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative}
+.tabs button{position:relative;z-index:1}
+#tabs button[aria-selected=true]{background:transparent;box-shadow:none}
+.seg-pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/2);box-sizing:border-box;border-radius:999px;background:var(--pill);border:1px solid var(--edge);box-shadow:0 0 0 1px var(--ring),0 4px 12px -4px var(--shadow);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);pointer-events:none;transition:transform 380ms var(--ease-ios-spring);will-change:transform,opacity}
+.tabs[data-active=directory] .seg-pill{transform:translateX(100%)}
+.seg button,.chip{transition:background .15s,color .15s,box-shadow .15s,transform 220ms var(--ease-ios-spring)}
+.seg button:active,.chip:active{transform:scale(.96)}
+#views{position:relative;margin:0 -16px;padding:0 16px;overflow-x:clip}
+.view{transform-origin:50% 0;transition:transform 420ms var(--ease-ios-spring),opacity 420ms var(--ease-ios-spring)}
+.view.anim{will-change:transform,opacity}
+.view-abs{position:absolute;top:0;left:16px;right:16px;pointer-events:none}
+@keyframes spring-up{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.stg{animation:spring-up 480ms var(--ease-ios-spring) backwards;animation-delay:calc(var(--i,0)*60ms);will-change:transform,opacity}
+#loader{transition:transform 300ms var(--ease-ios-spring),opacity 300ms var(--ease-ios-spring)}
+#loader.out{opacity:0;transform:translateY(-8px) scale(.98)}
+#modal{opacity:0;transition:opacity 340ms var(--ease-ios-spring);will-change:opacity}
+#modal.open{opacity:1}
+#modal .sheet{transform:translateY(100%);transition:transform 460ms var(--ease-ios-spring);will-change:transform}
+#modal.open .sheet{transform:none}
+@media(min-width:640px){#modal .sheet{transform:scale(.94);opacity:0;transition:transform 460ms var(--ease-ios-bounce),opacity 300ms var(--ease-ios-spring)}#modal.open .sheet{transform:none;opacity:1}}
+#toast{transform:translate(-50%,24px) scale(.94);transition:transform 440ms var(--ease-ios-bounce),opacity 260ms var(--ease-ios-spring);will-change:transform,opacity}
+#toast.show{transform:translate(-50%,0) scale(1)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+[data-lenis-prevent]{overscroll-behavior:contain}
+#modal{touch-action:none;overscroll-behavior:contain}
+html.gs .stg{animation:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.view{transform:none!important}#modal .sheet{transform:none!important;opacity:1!important}.view.anim,.stg,.seg-pill,#modal,#modal .sheet,#toast{will-change:auto}}
+</style>
+</head>
+<body>
+<div class="amb"></div>
+
+<header class="nav">
+  <div class="navin mx-auto" style="max-width:960px">
+    <div class="hd text-xl" style="white-space:nowrap">RateRoast<span style="color:var(--coral)">.</span><span class="beta">BETA</span></div>
+    <div class="seg tabs" id="tabs" role="tablist" aria-label="Views" data-active="audit"><span class="seg-pill" aria-hidden="true"></span>
+      <button role="tab" id="tab-audit" aria-selected="true" data-tab="audit">Audit &amp; Roast</button>
+      <button role="tab" id="tab-dir" aria-selected="false" data-tab="directory"><span><span class="hidden sm:inline">Co-Builder </span>Directory</span><span class="cnt" id="count">4</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto px-4 pb-24" style="max-width:960px">
+
+<!-- VIEW 1: AUDIT -->
+<div id="views">
+<section id="view-audit" class="view" aria-labelledby="h-audit">
+  <div class="pt-10 pb-8 md:pt-16 md:pb-10">
+    <h1 id="h-audit" class="hd" style="font-size:clamp(2.2rem,7vw,4rem);line-height:1.02;max-width:15ch">Stop pitching like an amateur. Get brutally audited.</h1>
+    <p class="mute mt-5 text-base md:text-lg" style="max-width:56ch">Our auditor reads your pitch the way a skeptical, high-paying client does: fast, impatient, and looking for a reason to say no. You get a score, the flaws, and a rewrite that earns the reply.</p>
+  </div>
+
+  <div class="glass p-5 md:p-8">
+    <div class="grid gap-5">
+      <div>
+        <label class="lbl" for="handle">Name or handle</label>
+        <input id="handle" class="field" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@yourhandle">
+      </div>
+      <div>
+        <span class="lbl" id="l-role">Your role</span>
+        <div id="roles" class="flex flex-wrap gap-2" role="group" aria-labelledby="l-role"></div>
+      </div>
+      <div>
+        <label class="lbl" for="rate">Your rate</label>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input id="rate" class="field" type="number" inputmode="decimal" min="0" step="any" placeholder="25" style="flex:1">
+          <div class="seg" id="cur" role="group" aria-label="Currency and unit" style="width:auto">
+            <button data-cur="usd" aria-pressed="true">USD/hr</button>
+            <button data-cur="idr" aria-pressed="false">IDR/project</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label class="lbl" for="pitch">Pitch or bio</label>
+        <textarea id="pitch" data-lenis-prevent class="field" placeholder="Paste your service description, profile bio, or cold outreach message."></textarea>
+      </div>
+      <p id="err" role="alert" class="text-sm font-semibold" style="color:var(--coral-ink)" hidden></p>
+      <div class="flex flex-col sm:flex-row gap-3 sm:justify-between">
+        <button class="btn btn-glass" id="fill" type="button">Fill Bad Pitch Example</button>
+        <button class="btn btn-dark" id="roast" type="button">Roast My Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loader" class="glass p-6 md:p-8 mt-6" hidden aria-live="polite">
+    <div class="grid gap-4">
+      <div class="step"><i></i>Analyzing positioning…</div>
+      <div class="step"><i></i>Benchmarking rate against market…</div>
+      <div class="step"><i></i>Writing brutal verdict…</div>
+    </div>
+  </div>
+
+  <div id="results" class="mt-6 grid gap-5" hidden></div>
+</section>
+
+<!-- VIEW 2: DIRECTORY -->
+<section id="view-dir" class="view" aria-labelledby="h-dir" hidden>
+  <div class="pt-10 pb-6 md:pt-16">
+    <h2 id="h-dir" class="hd" style="font-size:clamp(2rem,6vw,3.4rem);line-height:1.04">Co-Builder Directory</h2>
+    <p class="mute mt-4 text-base md:text-lg" style="max-width:56ch">Lapak Rekan: freelancers whose pitches passed the audit, and what each one is looking for next.</p>
+  </div>
+  <div id="filters" class="flex flex-wrap gap-2 mb-5" role="group" aria-label="Filter by role"></div>
+  <div id="grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+</section>
+</div>
+</main>
+
+<div id="modal" data-lenis-prevent hidden>
+  <div class="glass sheet p-6 w-full" role="dialog" aria-modal="true" aria-labelledby="m-title" style="max-width:480px;background:var(--pill)">
+    <div class="flex items-start justify-between gap-3">
+      <div class="min-w-0"><h3 id="m-title" class="hd text-xl truncate"></h3><p id="m-sub" class="mute text-sm"></p></div>
+      <button class="btn btn-glass sq" id="m-close" aria-label="Close">×</button>
+    </div>
+    <label class="lbl mt-5" for="m-msg">Intro message</label>
+    <textarea id="m-msg" class="field" style="min-height:130px" readonly></textarea>
+    <button class="btn btn-dark w-full mt-3" id="m-copy" type="button">Copy message</button>
+    <div id="m-contacts" class="grid gap-2 mt-5"></div>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const IC={flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',check:'<path d="M20 6 9 17l-5-5"/>',copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',badge:'<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',send:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>'};
+const ic=(n,c="")=>`<svg class="ic ${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+
+const ROLES=[{k:"ai",l:"AI & Frontend Builder"},{k:"design",l:"UI/UX Designer"},{k:"copy",l:"Conversion Copywriter"},{k:"dev",l:"Full-Stack Engineer"}];
+const LOOK=["Technical Co-Builder","UI/UX Partner","Growth & Sales"];
+const roleLabel=k=>(ROLES.find(r=>r.k===k)||ROLES[0]).l;
+const BENCH={usd:{ai:60,design:50,copy:45,dev:65},idr:{ai:15e6,design:12e6,copy:8e6,dev:18e6}};
+const fmt=(n,cur)=>cur==="usd"?"$"+Number(n).toLocaleString("en-US")+"/hr":"Rp "+Number(n).toLocaleString("id-ID")+"/project";
+const SEED=[
+ {id:"s1",name:"Raka Mahendra",role:"ai",rate:70,cur:"usd",score:94,line:"Ships Gemini-powered MVPs in three weeks; the last one cut a clinic’s intake time by 61%.",looking:"UI/UX Partner",c:[["Email","raka@mahendra.dev"],["Telegram","@rakamahendra"]]},
+ {id:"s2",name:"Nadia Putri",role:"design",rate:18e6,cur:"idr",score:91,line:"Redesigned a fintech onboarding flow and lifted activation 34% in six weeks.",looking:"Technical Co-Builder",c:[["Email","hello@nadiaputri.design"],["WhatsApp","+62 812 5550 0142"]]},
+ {id:"s3",name:"Dimas Aryo",role:"copy",rate:55,cur:"usd",score:88,line:"Landing-page rewrites that moved a SaaS trial-to-paid rate from 2.1% to 4.6%.",looking:"Growth & Sales",c:[["Email","dimas@aryowrites.co"],["Telegram","@dimasaryo"]]},
+ {id:"s4",name:"Sofia Lim",role:"dev",rate:80,cur:"usd",score:86,line:"Zero-downtime Rails-to-Next.js migrations and 40+ production launches.",looking:"UI/UX Partner",c:[["Email","sofia@limbuilds.dev"],["LinkedIn","linkedin.com/in/sofialim"]]}
+];
+const KEY="rateroast.cards.v1";
+let mine=[];try{mine=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(mine))mine=[]}catch(e){mine=[]}
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(mine))}catch(e){}};
+const st={role:"ai",cur:"usd",look:LOOK[0],filter:"all",audit:null};
+const allCards=()=>[...mine,...SEED];
+
+/* ---------- helpers ---------- */
+let tt;
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2200)}
+async function copyText(txt){
+  try{await navigator.clipboard.writeText(txt);return true}catch(e){
+    try{const a=document.createElement("textarea");a.value=txt;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();return ok}catch(_){return false}
+  }
+}
+const normHandle=h=>{h=h.trim();return h&&!/\s/.test(h)&&h[0]!=="@"?"@"+h:h};
+function setErr(m){const e=$("#err");e.textContent=m;e.hidden=!m}
+const updateCount=()=>{$("#count").textContent=allCards().length};
+
+/* ---------- audit engine ---------- */
+async function runAuditEngine(formData){
+  // === GEMINI_API_HOOK_START ===
+  // Replace the mock below with a call to your backend or the Gemini API, e.g.:
+  //   const res = await fetch("/api/audit", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(formData)});
+  //   return await res.json(); // must match the JSON shape returned at the end of this function
+  // === GEMINI_API_HOOK_END ===
+  await new Promise(r=>setTimeout(r,1500));
+  const {role,currency,rate,pitch}=formData;
+  const bench=BENCH[currency][role], ratio=rate/bench, low=pitch.toLowerCase();
+  const CL=["passionate","hardworking","hard-working","affordable","cheap","fast learner","team player","give me a chance","quality","dedicated","hi sir","dear sir","anything","best price","experienced","creative"];
+  const hits=CL.filter(w=>low.includes(w));
+  const proof=/\d+\s?(%|x\b|k\b|jt|juta|users|clients|leads|hours|weeks|days)|[$€£]\s?\d|\brp\s?\d/i.test(pitch);
+  const words=pitch.split(/\s+/).length;
+  let s=78-Math.min(hits.length*3,24)+(proof?8:-14)-(words<25?8:0);
+  s+=ratio<.5?-22:ratio<.8?-10:ratio>=1?6:0;
+  const score=Math.max(11,Math.min(96,Math.round(s)));
+  const status=score<50?"UNHIREABLE":score<80?"NEEDS WORK":"VERIFIED PRO";
+  const rl=roleLabel(role);
+  const verdicts={UNHIREABLE:`A client would skim this in four seconds and hire someone who sounds like they know what they’re worth.`,"NEEDS WORK":`There’s a real ${rl.toLowerCase()} in here, but the pitch hides them behind safe, forgettable phrasing.`,"VERIFIED PRO":`This reads like someone who has done the work. Tighten the proof and it closes itself.`};
+  const roasts=[
+    {title:"Generic Positioning",detail:hits.length?`“${hits.slice(0,3).join("”, “")}”: every freelancer says this. A client comparing 40 proposals sees noise, not a specialist.`:`No clichés, but you never say who you help or what changes after they hire you. Polished vagueness still loses to a clear niche.`},
+    {title:"Pricing Mismatch",detail:ratio<.8?`${fmt(rate,currency)} sits ${Math.round((1-ratio)*100)}% below the ~${fmt(bench,currency)} market floor for a ${rl.toLowerCase()}. Cheap reads as junior, and it attracts the clients who haggle.`:ratio>1.6?`${fmt(rate,currency)} is far above market and the pitch never earns it. High rates need high-contrast proof.`:`Your rate is in range, but nothing in the pitch explains it. A price without a reason is just a number.`},
+    {title:"Missing ROI Proof",detail:proof?`You cite numbers, but not the before, the after, or the type of client. Proof without context is easy to doubt.`:`Zero numbers. No revenue, conversions, hours saved, or users. Clients pay for outcomes, and effort is not an outcome.`}
+  ];
+  const r=fmt(Math.max(rate,bench),currency);
+  const pitches={
+    ai:`I build AI-powered MVPs for founders who need a working product, not a slide deck. My last Gemini and React prototype cut a client’s manual intake from 25 minutes to 4. Fixed-scope sprints, a live demo in 14 days, from ${r}. If your idea has to be in front of users this month, send me the one-line brief.`,
+    design:`I design product flows that convert. My last onboarding redesign lifted activation 34% in six weeks. You get research-backed screens, a clickable prototype, and dev-ready specs in two weeks, from ${r}. Send me the screen that loses you the most users and I’ll tell you why.`,
+    copy:`I write landing pages that turn visitors into trials. My last rewrite moved a SaaS trial-to-paid rate from 2.1% to 4.6%. You get a messaging audit, three headline angles, and final copy in five days, from ${r}. Send me your page and the number you want to beat.`,
+    dev:`I ship production-grade full-stack products without the rework. My last migration moved 200k users to Next.js with zero downtime. You get typed code, tests, and a deploy pipeline you can hand to any team, from ${r}. Tell me what’s breaking in production and I’ll scope the fix today.`
+  };
+  const liners={ai:"Ships AI MVPs in 14 days, built to cut a client’s manual work by half.",design:"Designs onboarding that converts, with activation gains measured in weeks.",copy:"Writes landing pages that double trial-to-paid, backed by before-and-after numbers.",dev:"Zero-downtime full-stack delivery with tests, types, and a handover-ready pipeline."};
+  return {score,status,verdict:verdicts[status],roasts,rewrittenPitch:pitches[role],upgradedScore:Math.min(95,Math.max(84,score+34)),oneLiner:liners[role]};
+}
+
+/* ---------- UI: form ---------- */
+function renderRoles(){
+  $("#roles").innerHTML=ROLES.map(r=>`<button type="button" class="chip" data-role="${r.k}" aria-pressed="${st.role===r.k}">${r.l}</button>`).join("");
+}
+function renderFilters(){
+  const f=[{k:"all",l:"All"},...ROLES];
+  $("#filters").innerHTML=f.map(r=>`<button type="button" class="chip" data-filter="${r.k}" aria-pressed="${st.filter===r.k}">${r.l}</button>`).join("");
+}
+function setCur(c){st.cur=c;document.querySelectorAll("#cur button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.cur===c));$("#rate").placeholder=c==="usd"?"25":"1500000"}
+function fillExample(){
+  $("#handle").value="@budi_webdev";st.role="dev";renderRoles();setCur("usd");$("#rate").value="8";
+  $("#pitch").value="Hi sir/madam! I am a passionate and hardworking full-stack developer with 3 years experience. I can do anything: website, mobile app, AI, anything you need. Very affordable price and fast delivery, quality guaranteed. Please give me a chance to work with you, I am a fast learner and team player. Contact me now!";
+  setErr("");
+}
+
+async function onRoast(){
+  const rate=parseFloat($("#rate").value),pitch=$("#pitch").value.trim();
+  if(!(rate>0)){setErr("Enter your rate as a number above 0.");$("#rate").focus();return}
+  if(pitch.length<30){setErr("Paste at least a couple of sentences from your pitch or bio.");$("#pitch").focus();return}
+  setErr("");
+  const form={handle:normHandle($("#handle").value),role:st.role,currency:st.cur,rate,pitch};
+  const btn=$("#roast"),loader=$("#loader"),res=$("#results");
+  btn.disabled=true;res.hidden=true;loader.classList.remove("out","stg");loader.hidden=false;void loader.offsetWidth;loader.classList.add("stg");
+  const steps=[...loader.querySelectorAll(".step")];
+  steps.forEach(s=>s.className="step");
+  const set=i=>steps.forEach((s,j)=>{s.className="step"+(j<i?" done":j===i?" on":"");if(j<i)s.firstElementChild.innerHTML=ic("check")});
+  set(0);const t1=setTimeout(()=>set(1),500),t2=setTimeout(()=>set(2),1000);
+  cascade([loader]);scrollToEl(loader);
+  try{
+    const data=await runAuditEngine(form);
+    steps.forEach(s=>{s.className="step done";s.firstElementChild.innerHTML=ic("check")});
+    await new Promise(r=>setTimeout(r,250));
+    loader.classList.add("out");await new Promise(r=>setTimeout(r,300));
+    loader.hidden=true;
+    st.audit={form,data};renderResults();
+  }catch(e){setErr("The audit failed. Check your connection and try again.")}
+  clearTimeout(t1);clearTimeout(t2);btn.disabled=false;loader.hidden=true;
+}
+
+function cardRate(){const {form}=st.audit;return Math.max(form.rate,BENCH[form.currency][form.role])}
+function renderCard(){
+  const {form,data}=st.audit,raised=cardRate()>form.rate;
+  $("#pass").innerHTML=`
+  <div class="flex items-start justify-between gap-3">
+    <div class="min-w-0"><div class="hd text-2xl truncate">${esc(form.handle||"@yourhandle")}</div><div class="mute text-sm">${roleLabel(form.role)}</div></div>
+    <span class="badge ok">${ic("badge")} Verified</span>
+  </div>
+  <div class="flex items-end gap-6 mt-6">
+    <div><div class="hd" style="font-size:56px;line-height:.9">${data.upgradedScore}<span class="mute text-lg" style="font-weight:700">/100</span></div><div class="mute text-xs mt-1">Upgraded score</div></div>
+    <div class="ml-auto text-right"><div class="font-bold">${fmt(cardRate(),form.currency)}</div><div class="mute text-xs">${raised?"Raised to market floor":"Your rate"}</div></div>
+  </div>
+  <p class="mt-5 text-[15px]" style="line-height:1.5">${esc(data.oneLiner)}</p>
+  <div class="mt-5"><span class="lbl" id="l-look">Looking for</span>
+    <div class="flex flex-wrap gap-2" role="group" aria-labelledby="l-look">${LOOK.map(l=>`<button type="button" class="chip" data-look="${esc(l)}" aria-pressed="${st.look===l}">${l}</button>`).join("")}</div></div>
+  <button type="button" class="btn btn-dark w-full mt-6" id="publish">Publish to Directory</button>`;
+}
+function renderResults(){
+  const {data}=st.audit,cls=data.status==="UNHIREABLE"?"no":data.status==="VERIFIED PRO"?"ok":"mid";
+  $("#results").innerHTML=`
+  <div class="glass stg p-6 md:p-8 grid md:grid-cols-[auto,1fr] gap-6 items-center" style="--i:0">
+    <div class="hd flex items-baseline gap-1"><span class="score" id="scoreNum">0</span><span class="mute text-2xl">/100</span></div>
+    <div><span class="status ${cls}">${data.status}</span>
+      <p class="hd text-xl md:text-2xl mt-3" style="line-height:1.25">${esc(data.verdict)}</p>
+      <p class="mute text-sm mt-2">The rewrite below lifts this to ${data.upgradedScore}/100.</p></div>
+  </div>
+  <h2 class="hd text-2xl mt-4 stg" style="--i:1">Brutal reality check</h2>
+  <div class="grid md:grid-cols-3 gap-4">${data.roasts.map((r,i)=>`
+    <div class="roast stg" style="--i:${i+2}">
+      <div class="flex items-center gap-2" style="color:var(--coral-ink)">${ic("flame")}<h3 class="hd text-base">${esc(r.title)}</h3></div>
+      <p class="text-sm mt-3" style="line-height:1.55">${esc(r.detail)}</p></div>`).join("")}</div>
+  <div class="glass stg p-6 md:p-8" style="background:var(--pill);--i:5">
+    <h2 class="hd text-2xl">High-converting rewrite</h2>
+    <p class="mt-4 text-base md:text-[17px]" style="line-height:1.65;max-width:68ch">${esc(data.rewrittenPitch)}</p>
+    <p class="mute text-xs mt-3">Swap the example numbers for your real results before you send it.</p>
+    <button type="button" class="btn btn-dark mt-5" id="copyPitch">${ic("copy")} Copy Pitch</button>
+  </div>
+  <h2 class="hd text-2xl mt-4 stg" style="--i:6">Your Co-Builder card</h2>
+  <div class="pass stg p-6 md:p-8 w-full" id="pass" style="max-width:440px;--i:7"></div>`;
+  renderCard();
+  $("#results").hidden=false;
+  const el=$("#scoreNum"),end=data.score;
+  if(window.gsap&&!RM){const o={v:0};gsap.to(o,{v:end,duration:1.2,ease:"power3.out",onUpdate:()=>{el.textContent=Math.round(o.v)}})}else el.textContent=end;
+  cascade($("#results").querySelectorAll(".stg"));
+  scrollToEl($("#results"));
+}
+
+function publish(){
+  const {form,data}=st.audit;
+  if(!form.handle){toast("Add a name or handle in the form first.");scrollToEl($("#handle"),true);$("#handle").focus({preventScroll:true});return}
+  mine.unshift({id:"u"+Date.now(),name:form.handle,role:form.role,rate:cardRate(),cur:form.currency,score:data.upgradedScore,line:data.oneLiner,looking:st.look,mine:true,c:[["Handle",form.handle]]});
+  persist();updateCount();toast("Published to the directory.");st.filter="all";location.hash="directory";
+}
+
+/* ---------- UI: directory ---------- */
+const scoreBadge=s=>s>=80?`<span class="badge ok">${ic("badge")} ${s}/100 Verified</span>`:`<span class="badge ${s<50?"no":"mid"}">${s}/100</span>`;
+function renderDir(){
+  renderFilters();
+  const list=allCards().filter(p=>st.filter==="all"||p.role===st.filter);
+  $("#grid").innerHTML=list.length?list.map((p,i)=>`
+  <article class="glass stg p-5 md:p-6 flex flex-col gap-3" style="--i:${Math.min(i,8)}">
+    <div class="flex items-start justify-between gap-3">
+      <div class="min-w-0"><h3 class="hd text-lg truncate">${esc(p.name)}</h3><p class="mute text-sm">${roleLabel(p.role)}${p.mine?" · Yours":""}</p></div>${scoreBadge(p.score)}
+    </div>
+    <p class="text-[15px]" style="line-height:1.55">${esc(p.line)}</p>
+    <div class="flex flex-wrap gap-2"><span class="tag">${fmt(p.rate,p.cur)}</span><span class="tag">Looking for: ${esc(p.looking)}</span></div>
+    <div class="flex gap-2 mt-auto pt-2"><button type="button" class="btn btn-glass grow" data-collab="${p.id}">${ic("send")} Pitch Collab</button>${p.mine?`<button type="button" class="btn btn-glass sq" data-del="${p.id}" aria-label="Remove my card">${ic("trash")}</button>`:""}</div>
+  </article>`).join(""):`<div class="glass stg p-8 md:col-span-2 text-center"><p class="hd text-xl">No ${roleLabel(st.filter)}s yet</p><p class="mute mt-2">Run an audit and publish your card to be the first.</p><button type="button" class="btn btn-dark mt-5" data-tab="audit">Audit my pitch</button></div>`;
+  cascade(document.querySelectorAll("#grid .stg"));
+}
+let opener=null,mcur=null;
+function openModal(id){
+  const p=allCards().find(x=>x.id===id);if(!p)return;mcur=p;opener=document.activeElement;
+  $("#m-title").textContent=p.name;$("#m-sub").textContent=roleLabel(p.role)+" · "+fmt(p.rate,p.cur);
+  $("#m-msg").value=`Hi ${p.name.replace(/^@/,"").split(" ")[0]}, I found your RateRoast card and “${p.line}” stood out. I’m working on something where a strong ${roleLabel(p.role).toLowerCase()} would change the outcome, and I’d like to talk about collaborating. Open to a 15-minute call this week?`;
+  $("#m-contacts").innerHTML=p.c.map(([k,v],i)=>`<div class="flex items-center justify-between gap-3 p-3 rounded-2xl" style="background:var(--field);border:1px solid var(--line)"><div class="min-w-0"><div class="mute text-xs">${esc(k)}</div><div class="font-semibold truncate">${esc(v)}</div></div><button type="button" class="btn btn-glass sq" data-cc="${i}" aria-label="Copy ${esc(k)}">${ic("copy")}</button></div>`).join("");
+  const m=$("#modal");m.hidden=false;void m.offsetWidth;m.classList.add("open");if(lenis)lenis.stop();$("#m-close").focus({preventScroll:true});
+}
+function closeModal(){const m=$("#modal");m.classList.remove("open");if(lenis)lenis.start();setTimeout(()=>{if(!m.classList.contains("open"))m.hidden=true},380);if(opener&&opener.focus)opener.focus({preventScroll:true})}
+
+/* ---------- routing ---------- */
+const VIEWS={audit:$("#view-audit"),directory:$("#view-dir")};
+let cur=null,fin=null;
+function swap(outEl,inEl,dir){
+  if(fin)fin();
+  outEl.classList.add("anim","view-abs");inEl.classList.add("anim");
+  inEl.hidden=false;
+  inEl.style.transition="none";inEl.style.transform=`translateX(${dir*24}px)`;inEl.style.opacity="0";
+  void inEl.offsetWidth;
+  inEl.style.transition="";inEl.style.transform="";inEl.style.opacity="";
+  outEl.style.transform=`translateX(${-dir*24}px) scale(.98)`;outEl.style.opacity="0";
+  const f=()=>{clearTimeout(tm);outEl.hidden=true;outEl.classList.remove("anim","view-abs");outEl.style.transform="";outEl.style.opacity="";inEl.classList.remove("anim");fin=null};
+  const tm=setTimeout(f,440);fin=f;
+}
+function show(){
+  const to=location.hash==="#directory"?"directory":"audit";
+  $("#tabs").dataset.active=to;
+  $("#tab-audit").setAttribute("aria-selected",to==="audit");
+  $("#tab-dir").setAttribute("aria-selected",to==="directory");
+  if(to===cur)return;
+  if(to==="directory")renderDir();
+  toTop();
+  const from=cur;cur=to;
+  if(from===null){Object.entries(VIEWS).forEach(([k,el])=>{el.hidden=k!==to});return}
+  swap(VIEWS[from],VIEWS[to],to==="directory"?1:-1);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",async e=>{
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.tab){location.hash=t.dataset.tab;return}
+  if(t.dataset.role){st.role=t.dataset.role;renderRoles();return}
+  if(t.dataset.cur){setCur(t.dataset.cur);return}
+  if(t.dataset.look){st.look=t.dataset.look;renderCard();return}
+  if(t.dataset.filter){st.filter=t.dataset.filter;renderDir();return}
+  if(t.dataset.collab){openModal(t.dataset.collab);return}
+  if(t.dataset.cc&&mcur){const ok=await copyText(mcur.c[+t.dataset.cc][1]);toast(ok?"Copied.":"Copy failed. Select and copy manually.");return}
+  if(t.dataset.del){mine=mine.filter(p=>p.id!==t.dataset.del);persist();updateCount();renderDir();toast("Card removed.");return}
+  if(t.id==="fill")return fillExample();
+  if(t.id==="roast")return onRoast();
+  if(t.id==="publish")return publish();
+  if(t.id==="m-close")return closeModal();
+  if(t.id==="m-copy"){const ok=await copyText($("#m-msg").value);toast(ok?"Message copied.":"Copy failed. Select and copy manually.");return}
+  if(t.id==="copyPitch"){
+    const ok=await copyText(st.audit.data.rewrittenPitch);
+    t.innerHTML=ok?ic("check")+" Copied":"Copy failed";toast(ok?"Pitch copied.":"Copy failed. Select and copy manually.");
+    setTimeout(()=>{t.innerHTML=ic("copy")+" Copy Pitch"},1800);
+  }
+});
+$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#modal").hidden)closeModal()});
+window.addEventListener("hashchange",show);
+
+/* ---------- GSAP + Lenis ---------- */
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let lenis=null;
+if(window.gsap)document.documentElement.classList.add("gs");
+if(window.Lenis&&!RM){
+  lenis=new Lenis({lerp:0.1,smoothWheel:true});
+  if(window.gsap){gsap.ticker.add(t=>{lenis.raf(t*1000)});gsap.ticker.lagSmoothing(0)}
+  else{const loop=t=>{lenis.raf(t);requestAnimationFrame(loop)};requestAnimationFrame(loop)}
+}
+function toTop(){if(lenis)lenis.scrollTo(0,{immediate:true,force:true});else window.scrollTo({top:0})}
+function scrollToEl(el,center){
+  const off=center?-(window.innerHeight-el.offsetHeight)/2:-($(".nav").offsetHeight+12);
+  if(lenis)lenis.scrollTo(el,{offset:off,duration:1.2});
+  else el.scrollIntoView({behavior:"smooth",block:center?"center":"start"});
+}
+function cascade(els){
+  els=[...els];if(!els.length||!window.gsap||RM)return;
+  gsap.fromTo(els,{y:18,scale:.98,opacity:0},{y:0,scale:1,opacity:1,duration:.48,ease:"power3.out",stagger:.06,overwrite:"auto",clearProps:"transform,opacity"});
+}
+let pressed=null;
+document.addEventListener("pointerdown",e=>{
+  if(!window.gsap||RM)return;
+  const t=e.target.closest(".btn-dark,.chip,#grid article");
+  if(!t||t.disabled)return;
+  pressed=t;gsap.to(t,{scale:.97,duration:.18,ease:"power3.out",overwrite:"auto"});
+});
+function release(){
+  if(!pressed)return;const t=pressed;pressed=null;
+  gsap.to(t,{scale:1,duration:.4,ease:"back.out(2)",overwrite:"auto",clearProps:"transform"});
+}
+document.addEventListener("pointerup",release);
+document.addEventListener("pointercancel",release);
+
+renderRoles();updateCount();show();
+</script>
+</body>
+</html>
